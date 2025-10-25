@@ -1320,7 +1320,7 @@
             }
 
             try {
-                const response = await fetch(`https://receitaws.com.br/v1/cnpj/${cnpj}/`, {
+                const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`, {
                     signal: AbortSignal.timeout(5000)
                 });
 
@@ -1332,7 +1332,7 @@
 
                 await new Promise(resolve => setTimeout(resolve, 400));
 
-                if (data.status === 'OK' && data.cnpj) {
+                if (data.cnpj) {
                     cnpjData = data;
                     displayCNPJInfo(data);
                     cnpjInput.classList.add('success');
@@ -1342,7 +1342,7 @@
                     waitingPayment.style.display = 'block';
                     showSuccessNotification('CNPJ encontrado com sucesso!');
                 } else {
-                    showCNPJError('CNPJ não encontrado ou inválido');
+                    showCNPJError('CNPJ não encontrado ou inválido. Verifique o número e tente novamente.');
                 }
             } catch (error) {
                 console.error('Erro ao buscar CNPJ:', error);
@@ -1361,16 +1361,16 @@
 
 const infoItems = [
 		                { label: 'CNPJ', value: data.cnpj },
-		                { label: 'Situação Cadastral', value: data.situacao || '-' },
-		                { label: 'Data da Situação', value: data.data_situacao || '-' },
-		                { label: 'Razão Social', value: data.nome },
-		                { label: 'Nome Fantasia', value: data.fantasia || '-' },
-		                { label: 'Natureza Jurídica', value: data.natureza_juridica || '-' },
+		                { label: 'Situação Cadastral', value: data.descricao_situacao_cadastral || '-' },
+		                { label: 'Data da Situação', value: data.data_situacao_cadastral || '-' },
+		                { label: 'Razão Social', value: data.razao_social },
+		                { label: 'Nome Fantasia', value: data.nome_fantasia || '-' },
+		                { label: 'Natureza Jurídica', value: data.descricao_natureza_juridica || '-' },
 		                { label: 'Porte', value: data.porte || '-' },
-		                { label: 'Data de Abertura', value: data.abertura || '-' },
-		                { label: 'Atividade Principal', value: data.atividade_principal[0]?.text || data.atividade_principal[0]?.code || '-' },
+		                { label: 'Data de Abertura', value: data.data_inicio_atividade || '-' },
+		                { label: 'Atividade Principal', value: data.cnae_fiscal_descricao || '-' },},{find:
 		                { label: 'Endereço', value: `${data.logradouro || ''}, ${data.numero || ''} ${data.complemento || ''} - ${data.bairro || ''}, ${data.municipio || ''}/${data.uf || ''} - CEP: ${data.cep || ''}`.trim() },
-		                { label: 'Telefone', value: data.telefone || '-' },
+		                { label: 'Telefone', value: data.ddd_telefone_1 || data.ddd_telefone_2 || '-' },
 		                { label: 'E-mail', value: data.email || '-' }
 		            ];
 
