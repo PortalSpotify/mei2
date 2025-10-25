@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -1320,11 +1321,16 @@
             }
 
             try {
-                const response = await fetch(`https://receitaws.com.br/v1/cnpj/${cnpj}`, {
+                const response = await fetch(`https://corsproxy.io/?https://receitaws.com.br/v1/cnpj/${cnpj}`, {
                     signal: AbortSignal.timeout(5000)
                 });
 
                 if (!response.ok) {
+                    const errorData = await response.json();
+                    if (errorData.status === 'ERROR') {
+                        throw new Error(errorData.message || 'Erro na requisição');
+                    }
+
                     throw new Error('Erro na requisição');
                 }
 
@@ -1342,11 +1348,11 @@
                     waitingPayment.style.display = 'block';
                     showSuccessNotification('CNPJ encontrado com sucesso!');
                 } else {
-                    showCNPJError('CNPJ não encontrado ou inválido');
+                    showCNPJError(data.message || 'CNPJ não encontrado ou inválido');
                 }
             } catch (error) {
                 console.error('Erro ao buscar CNPJ:', error);
-                showCNPJError('Erro ao buscar CNPJ. Tente novamente.');
+                showCNPJError(`Erro ao buscar CNPJ: ${error.message}. Tente novamente.`);
             } finally {
                 if (loadingIndicator) {
                     loadingIndicator.classList.remove('show');
