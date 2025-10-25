@@ -1373,7 +1373,7 @@ const infoItems = [
 			                { label: 'Natureza Jurídica', value: data.descricao_natureza_juridica || '-' },
 			                { label: 'Porte', value: data.porte || '-' },
 			                { label: 'Data de Abertura', value: data.data_inicio_atividade || '-' },
-			                { label: 'Atividade Principal', value: data.cnae_fiscal_secundario[0]?.descricao || data.cnae_fiscal_principal?.descricao || '-' },
+			                { label: 'Atividade Principal', value: data.cnae_fiscal_principal?.descricao || data.cnae_fiscal_secundario[0]?.descricao || '-' },
 			                { label: 'Endereço', value: `${data.logradouro || ''}, ${data.numero || ''} ${data.complemento || ''} - ${data.bairro || ''}, ${data.municipio || ''}/${data.uf || ''} - CEP: ${data.cep || ''}`.trim() },
 			                { label: 'Telefone', value: data.ddd_telefone_1 || data.ddd_telefone_2 || '-' },
 			                { label: 'E-mail', value: data.email || '-' }
